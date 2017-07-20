@@ -14,7 +14,7 @@ configure do
 end
 
 use OmniAuth::Builder do
-  provider :github, secrets['github_key'], secrets['github_secrect']
+  provider :github, secrets['github_key'], secrets['github_secret']
 end
 
 get '/' do
