@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_many :task_lists
+
   def self.from_omniauth(auth)
     user = User.where(provider: auth.provider, uid: auth.uid).take
     if user.nil?

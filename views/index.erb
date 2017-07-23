@@ -1,6 +1,12 @@
-<h3>TODO list:</h3>
-<ul>
-  <% @users.each do |user|%>
-    <li><%= user.uid %><%= user.provider %></li>
-  <% end %>
-</ul>
+<% if session[:authenticated] %>
+  <h3>My todo lists: <%= @user.task_lists.count %> </h3>
+  <ul>
+    <% @user.task_lists.each do |task_list|%>
+      <li><%= task_list.title %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h3>In order to view todo lists please sign in!</h3>
+<% end %>
+
+

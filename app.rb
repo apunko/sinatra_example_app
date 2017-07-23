@@ -5,6 +5,8 @@ require 'omniauth'
 require 'omniauth-github'
 require 'sinatra/activerecord'
 require './models/user'
+require './models/task_list'
+require './models/item'
 
 secrets = YAML.load_file('secrets.yml')
 
@@ -18,8 +20,10 @@ use OmniAuth::Builder do
 end
 
 get '/' do
-  puts session[:authenticated]
-  @users = User.all
+  if session[:authenticated] 
+    @user = User.find(session[:user_id])
+  end
+
   erb :index
 end
  

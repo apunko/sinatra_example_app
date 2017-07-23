@@ -16,17 +16,17 @@ ActiveRecord::Schema.define(version: 20170721182659) do
   enable_extension "plpgsql"
 
   create_table "items", force: :cascade do |t|
-    t.bigint "task_lists_id"
+    t.bigint "task_list_id"
     t.string "value", null: false
     t.boolean "done", default: false
-    t.index ["task_lists_id"], name: "index_items_on_task_lists_id"
+    t.index ["task_list_id"], name: "index_items_on_task_list_id"
   end
 
   create_table "task_lists", force: :cascade do |t|
-    t.bigint "users_id"
+    t.bigint "user_id"
     t.string "title", null: false
     t.text "description"
-    t.index ["users_id"], name: "index_task_lists_on_users_id"
+    t.index ["user_id"], name: "index_task_lists_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -35,6 +35,6 @@ ActiveRecord::Schema.define(version: 20170721182659) do
     t.string "name"
   end
 
-  add_foreign_key "items", "task_lists", column: "task_lists_id"
-  add_foreign_key "task_lists", "users", column: "users_id"
+  add_foreign_key "items", "task_lists"
+  add_foreign_key "task_lists", "users"
 end
