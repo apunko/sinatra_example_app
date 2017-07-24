@@ -4,9 +4,8 @@
     <% @user.task_lists.each do |task_list|%>
       <li><%= task_list.title %></li>
     <% end %>
+    <%= erb :"task_list/_new_form" %>    
   </ul>
 <% else %>
   <h3>In order to view todo lists please sign in!</h3>
 <% end %>
-
-

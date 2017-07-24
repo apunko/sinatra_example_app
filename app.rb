@@ -1,6 +1,6 @@
-require 'rubygems'
+require "rack/csrf"
 require 'sinatra'
-require 'json'
+require "sinatra/json"
 require 'omniauth'
 require 'omniauth-github'
 require 'sinatra/activerecord'
@@ -15,8 +15,25 @@ configure do
   set :inline_templates, true
 end
 
+helpers do
+  def csrf_token
+    Rack::Csrf.csrf_token(env)
+  end
+
+  def csrf_tag
+    Rack::Csrf.csrf_tag(env)
+  end
+end
+
 use OmniAuth::Builder do
   provider :github, secrets['github_key'], secrets['github_secret']
+end
+
+post '/create_task_list' do
+  puts "@@@@@@@@@@@@@@@@@@@@@"
+  puts params
+  puts "!!!!!!!!!!!!!"
+  json :task_id => '123'
 end
 
 get '/' do
