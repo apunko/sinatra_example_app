@@ -3,10 +3,13 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script type="text/javascript" src="scripts/forms_helper.js"></script>
   <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="styles/application.css" rel="stylesheet">
   <title>Sinatra app</title>
 </head>
 <body>
   <%= erb :_navbar %>
-  <%= yield %>
+  <div class="page_content">
+    <%= yield %>
+  </div>
 </body>
 </html>
