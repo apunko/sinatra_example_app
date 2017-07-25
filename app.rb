@@ -30,10 +30,12 @@ use OmniAuth::Builder do
 end
 
 post '/create_task_list' do
-  puts "@@@@@@@@@@@@@@@@@@@@@"
-  puts params
-  puts "!!!!!!!!!!!!!"
-  json :task_id => '123'
+  if session[:authenticated]
+    TaskList.create(title: params[:title], user_id: session[:user_id])
+    json :task_id => '123'
+  else 
+    status 401
+  end
 end
 
 get '/' do
