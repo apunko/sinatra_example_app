@@ -1,0 +1,7 @@
+<% task_list = locals[:task_list] %>
+
+<ul>
+  <% task_list.items.each do |item| %>
+    <li><%= item.value %></li>
+  <% end %>
+</ul>

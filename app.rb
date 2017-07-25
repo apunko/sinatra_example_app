@@ -38,6 +38,15 @@ post '/create_task_list' do
   end
 end
 
+post '/add_item' do
+  if session[:authenticated]
+    Item.create(value: params[:value], task_list_id: params[:task_list_id])
+    json :task_id => '123'
+  else 
+    status 401
+  end
+end
+
 get '/' do
   if session[:authenticated] 
     @user = User.find(session[:user_id])
