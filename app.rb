@@ -31,8 +31,8 @@ end
 
 post '/add_item' do
   if session[:authenticated]
-    Item.create(value: params[:value], task_list_id: params[:task_list_id])
-    json :task_id => '123'
+    item = Item.create(value: params[:value], task_list_id: params[:task_list_id])
+    json :item => { value: item.value, id: item.id }
   else 
     status 401
   end
@@ -41,8 +41,7 @@ end
 delete '/items/:id' do
   item = Item.find(params[:id])
   item.destroy
-  json :task_id => '123'
-  redirect to("/")
+  json item_id: params[:id]
 end
 
 get '/' do

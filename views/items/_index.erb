@@ -1,10 +1,10 @@
 <% task_list = locals[:task_list] %>
 
-<ul>
+<ul class="items">
   <% task_list.items.each do |item| %>
     <li class="item" item_id=<%= item.id %> >
       <span class="check">&#10003;</span>
-      <span><%= item.value %></span>
+      <%= item.value %>
       <span class="close">×</span>  
     </li>
   <% end %>

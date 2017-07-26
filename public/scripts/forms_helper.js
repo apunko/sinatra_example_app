@@ -18,25 +18,33 @@ Forms.Items.CreateForm = (function() {
           dataType: 'json',
           data : $(_form_selector).serialize()
         })
-        .done(function() {
-          alert( "success" );
+        .done(function(e) {
+          debugger
+          var item_element = $("<li class='item' item_id='" + e.item.id + "''><span class='check'>&#10003;</span>" + e.item.value + "<span class='close'>×</span></li>");
+          $("ul.items").append(item_element);
+          $("ul.items").find("li:last .close").click(Forms.Items.CreateForm.OnDelete)
+          console.log( "success" );
         })
-        .fail(function() {
-          alert( "error" );
+        .fail(function(e) {
+          debugger;
+          console.log( "error" );
         });
     },
 
     OnDelete: function(e) {
+      e.preventDefault();
       debugger;
       $.ajax({
         url: '/items/' + $(e.target).parent().attr("item_id"),
         type: 'DELETE'
       })
-      .done(function() {
-        alert( "success" );
+      .done(function(e) {
+        debugger;
+        $("li[item_id=" + e.item_id + "]").remove();
+        console.log( "success" );
       })
-      .fail(function() {
-        alert( "error" );
+      .fail(function(e, data) {
+        console.log( "Sorry, something went wrong" );
       });;
     }
   }
