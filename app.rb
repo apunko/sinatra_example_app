@@ -44,6 +44,12 @@ delete '/items/:id' do
   json item_id: params[:id]
 end
 
+put '/items/:id' do
+  item = Item.find(params[:id])
+  item.update(done: !item.done)
+  json :item => { done: item.done, id: item.id }
+end
+
 get '/' do
   if session[:authenticated] 
     @user = User.find(session[:user_id])

@@ -60,3 +60,9 @@ div.page_content .close:hover {
     background-color: #f44336;
     color: white;
 }
+
+div.page_content ul li.done_true {
+    background: #888;
+    color: #fff;
+    text-decoration: line-through;
+}
