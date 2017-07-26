@@ -8,3 +8,7 @@ li.greeting {
 div.page_content {
     padding-left: 15px;
 }
+
+li close {
+    cursor: pointer;
+}

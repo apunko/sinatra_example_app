@@ -29,15 +29,6 @@ use OmniAuth::Builder do
   provider :github, secrets['github_key'], secrets['github_secret']
 end
 
-post '/create_task_list' do
-  if session[:authenticated]
-    TaskList.create(title: params[:title], user_id: session[:user_id])
-    json :task_id => '123'
-  else 
-    status 401
-  end
-end
-
 post '/add_item' do
   if session[:authenticated]
     Item.create(value: params[:value], task_list_id: params[:task_list_id])
@@ -45,6 +36,13 @@ post '/add_item' do
   else 
     status 401
   end
+end
+
+delete '/items/:id' do
+  item = Item.find(params[:id])
+  item.destroy
+  json :task_id => '123'
+  redirect to("/")
 end
 
 get '/' do
@@ -59,6 +57,7 @@ get '/auth/:provider/callback' do
   auth = request.env['omniauth.auth']
   @user = User.from_omniauth(auth)
   if !@user.nil?
+    TaskList.create(title: "TODO list", user_id: @user.id)
     session[:user_id] = @user.id
     session[:user_name] = @user.name
     session[:authenticated] = true

@@ -1,10 +1,9 @@
 <% if session[:authenticated] %>
-  <h3>My todo lists: <%= @user.task_lists.count %> </h3>
   <ul>
     <% @user.task_lists.each do |task_list| %>
       <%= erb(:"task_lists/_view", :locals => { :task_list => task_list }) %>
     <% end %>   
   </ul>
 <% else %>
-  <h3>In order to view todo lists please sign in!</h3>
+  <h3>In order to view todo list sign in!</h3>
 <% end %>

@@ -2,6 +2,13 @@
 
 <ul>
   <% task_list.items.each do |item| %>
-    <li><%= item.value %></li>
+    <li class="item" item_id=<%= item.id %> >
+      <%= item.value %>
+      <span class="close">×</span>  
+    </li>
   <% end %>
 </ul>
+
+<script>
+  Forms.Items.CreateForm.Initialize("#item_new_form");
+</script>
