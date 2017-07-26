@@ -7,3 +7,7 @@
   </div>  
   <%= erb(:"items/_index", :locals => { :task_list => task_list }) %>
 </div>
+
+<script>
+  Forms.Items.Initialize("#item_new_form");
+</script>

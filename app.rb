@@ -1,6 +1,6 @@
-require "rack/csrf"
+require 'rack/csrf'
 require 'sinatra'
-require "sinatra/json"
+require 'sinatra/json'
 require 'omniauth'
 require 'omniauth-github'
 require 'sinatra/activerecord'
@@ -31,9 +31,10 @@ end
 
 post '/add_item' do
   if session[:authenticated]
-    item = Item.create(value: params[:value], task_list_id: params[:task_list_id])
-    json :item => { value: item.value, id: item.id }
-  else 
+    item = Item.create(value:        params[:value],
+                       task_list_id: params[:task_list_id])
+    json item: { value: item.value, id: item.id }
+  else
     status 401
   end
 end
@@ -47,26 +48,24 @@ end
 put '/items/:id' do
   item = Item.find(params[:id])
   item.update(done: !item.done)
-  json :item => { done: item.done, id: item.id }
+  json item: { done: item.done, id: item.id }
 end
 
 get '/' do
-  if session[:authenticated] 
-    @user = User.find(session[:user_id])
-  end
+  @user = User.find(session[:user_id]) if session[:authenticated]
 
   erb :index
 end
- 
+
 get '/auth/:provider/callback' do
   auth = request.env['omniauth.auth']
   @user = User.from_omniauth(auth)
-  if !@user.nil?
+  if @user
     session[:user_id] = @user.id
     session[:user_name] = @user.name
     session[:authenticated] = true
     redirect '/'
-  else 
+  else
     erb "<h1>Can's create session</h1><h3>message:<h3> <pre>#{params}</pre>"
   end
 end
