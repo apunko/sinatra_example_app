@@ -57,7 +57,6 @@ get '/auth/:provider/callback' do
   auth = request.env['omniauth.auth']
   @user = User.from_omniauth(auth)
   if !@user.nil?
-    TaskList.create(title: "TODO list", user_id: @user.id)
     session[:user_id] = @user.id
     session[:user_name] = @user.name
     session[:authenticated] = true

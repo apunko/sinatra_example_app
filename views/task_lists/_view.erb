@@ -1,7 +1,9 @@
 <% task_list = locals[:task_list] %>
 
 <div>
-  <%= task_list.title %>
-  <%= erb(:"items/_new_form", :locals => { :task_list => task_list }) %> 
+  <div class="list_header">
+    <h2><%= task_list.title %></h2>
+    <%= erb(:"items/_new_form", :locals => { :task_list => task_list }) %> 
+  </div>  
   <%= erb(:"items/_index", :locals => { :task_list => task_list }) %>
 </div>

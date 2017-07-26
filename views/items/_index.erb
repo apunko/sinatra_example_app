@@ -3,7 +3,8 @@
 <ul>
   <% task_list.items.each do |item| %>
     <li class="item" item_id=<%= item.id %> >
-      <%= item.value %>
+      <span class="check">&#10003;</span>
+      <span><%= item.value %></span>
       <span class="close">×</span>  
     </li>
   <% end %>
