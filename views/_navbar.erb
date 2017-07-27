@@ -5,8 +5,8 @@
     </div>
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
-        <% if session[:authenticated] %>
-          <li class="greeting">Hello, <%= session[:user_name] %>!</li>
+        <% if current_user %>
+          <li class="greeting">Hello, <%= current_user.name %>!</li>
           <li><a href="/logout">Sign out</a></li>
         <% else %>
           <li><a href="/auth/github">Sign in with GitHub</a></li>

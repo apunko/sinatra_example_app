@@ -12,14 +12,14 @@ Forms.Items = (function() {
   }
 
   var items = {
-    Initialize: function(form_selector) {
+    initialize: function(form_selector) {
       _form_selector = form_selector;
-      $(form_selector).unbind('submit').submit(Forms.Items.OnCreate);
-      $("ul.items .close").click(Forms.Items.OnDelete);
-      $("ul.items .check").click(Forms.Items.OnUpdate);
+      $(form_selector).off('submit').submit(Forms.Items.onCreate);
+      $("ul.items .close").click(Forms.Items.onDelete);
+      $("ul.items .check").click(Forms.Items.onUpdate);
     },
 
-    OnCreate: function (e) {
+    onCreate: function (e) {
         e.preventDefault();
         $.post({
           url : "/add_item",
@@ -29,8 +29,8 @@ Forms.Items = (function() {
         .done(function(e) {
           var item_element = createItemElement(e.item);
           $("ul.items").append(item_element);
-          $("ul.items").find("li:last .close").click(Forms.Items.OnDelete);
-          $("ul.items").find("li:last .check").click(Forms.Items.OnUpdate);
+          $("ul.items li:last .close").click(Forms.Items.onDelete);
+          $("ul.items li:last .check").click(Forms.Items.onUpdate);
           $(_form_selector).find("input").val("");
         })
         .fail(function(e) {
@@ -38,7 +38,7 @@ Forms.Items = (function() {
         });
     },
 
-    OnUpdate: function(e) {
+    onUpdate: function(e) {
       $.ajax({
         url: '/items/' + $(e.target).parent().attr("item_id"),
         type: 'PUT'
@@ -52,7 +52,7 @@ Forms.Items = (function() {
       });;
     },
 
-    OnDelete: function(e) {
+    onDelete: function(e) {
       $.ajax({
         url: '/items/' + $(e.target).parent().attr("item_id"),
         type: 'DELETE'

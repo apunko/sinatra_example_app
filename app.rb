@@ -23,6 +23,10 @@ helpers do
   def csrf_tag
     Rack::Csrf.csrf_tag(env)
   end
+
+  def current_user
+    User.find(session[:user_id])
+  end
 end
 
 use OmniAuth::Builder do
@@ -30,9 +34,11 @@ use OmniAuth::Builder do
 end
 
 post '/add_item' do
-  if session[:authenticated]
-    item = Item.create(value:        params[:value],
-                       task_list_id: params[:task_list_id])
+  if current_user
+    item = Item.create(
+      value: params[:value],
+      task_list_id: params[:task_list_id]
+    )
     json item: { value: item.value, id: item.id }
   else
     status 401
@@ -41,29 +47,31 @@ end
 
 delete '/items/:id' do
   item = Item.find(params[:id])
-  item.destroy
-  json item_id: params[:id]
+  if item.destroy
+    json item_id: params[:id]
+  else 
+    status 500
+  end
 end
 
 put '/items/:id' do
   item = Item.find(params[:id])
-  item.update(done: !item.done)
-  json item: { done: item.done, id: item.id }
+  if item.update(done: !item.done)
+    json item: { done: item.done, id: item.id }
+  else
+    status 500
+  end
 end
 
 get '/' do
-  @user = User.find(session[:user_id]) if session[:authenticated]
-
   erb :index
 end
 
 get '/auth/:provider/callback' do
   auth = request.env['omniauth.auth']
-  @user = User.from_omniauth(auth)
-  if @user
-    session[:user_id] = @user.id
-    session[:user_name] = @user.name
-    session[:authenticated] = true
+  user = User.from_omniauth(auth)
+  if user
+    session[:user_id] = user.id
     redirect '/'
   else
     erb "<h1>Can's create session</h1><h3>message:<h3> <pre>#{params}</pre>"
@@ -75,7 +83,6 @@ get '/auth/failure' do
 end
 
 get '/logout' do
-  session[:authenticated] = false
-  puts session[:authenticated]
+  session[:user_id] = nil
   redirect '/'
 end
