@@ -49,7 +49,7 @@ delete '/items/:id' do
   item = Item.find(params[:id])
   if item.destroy
     json item_id: params[:id]
-  else 
+  else
     status 500
   end
 end

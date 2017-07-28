@@ -22,9 +22,9 @@ Forms.Items = (function() {
     onCreate: function (e) {
         e.preventDefault();
         $.post({
-          url : "/add_item",
+          url: "/add_item",
           dataType: 'json',
-          data : $(_form_selector).serialize()
+          data: $(_form_selector).serialize()
         })
         .done(function(e) {
           var item_element = createItemElement(e.item);
