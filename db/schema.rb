@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 20170727215245) do
     t.string "provider", null: false
     t.string "uid", null: false
     t.string "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_foreign_key "items", "task_lists"
